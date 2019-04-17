@@ -5,9 +5,11 @@
 #ifndef TERMINALSNAKE_USERINTERFACE_HPP
 #define TERMINALSNAKE_USERINTERFACE_HPP
 
+#include <ncurses.h>
 #include <utility>
 #include <deque>
 #include "Point.hpp"
+#include "Enums.hpp"
 
 class UserInterfaceI {
 public:
@@ -15,15 +17,15 @@ public:
 
 	virtual void clear() = 0;
 
-	virtual void drawDeque(const std::deque<Point>& object) = 0;
+	virtual void drawDeque(const std::deque<Point>& object, chtype symbol) = 0;
 
-	virtual void drawPoint(Point object) = 0;
+	virtual void drawPoint(Point object, chtype symbol) = 0;
 
 	virtual void refresh() = 0;
 
 	virtual void printGameOver() = 0;
 
-	virtual char getInput() = 0;
+	virtual Direction getInput(Direction previous) = 0;
 };
 
 class UserInterface : public UserInterfaceI {
@@ -32,15 +34,17 @@ public:
 
 	void clear() override;
 
-	void drawDeque(const std::deque<Point>& object) override;
+	void drawDeque(const std::deque<Point>& object, chtype symbol) override;
 
-	void drawPoint(Point object) override;
+	void drawPoint(Point object, chtype symbol) override;
 
 	void refresh() override;
 
 	void printGameOver() override;
 
-	char getInput() override;
+	Direction getInput(Direction previous) override;
+
+	std::pair<unsigned int, unsigned int> windowSize;
 
 };
 

@@ -23,19 +23,25 @@ private:
 
 	void gameOver();
 
-	bool checkIfNextMoveValid();
+	void checkIfMoveValid();
 
-	bool checkSelfColision(Point move);
+	bool checkSelfColision();
 
-	bool checkWallColision(Point move);
+	bool checkWallColision(const Point& move);
+
+	bool checkIfAteFood();
+
+	Point generateRandomPoint();
+
+	GameState gameState;
+
+	std::unique_ptr<UserInterfaceI> UI;
+
+	std::pair<unsigned int, unsigned int> windowSize;
 
 	Snake snake;
 
 	std::vector<Point> food;
-
-	std::unique_ptr<UserInterfaceI> UI;
-
-	std::pair<unsigned int, unsigned int> borderSize;
 };
 
 
