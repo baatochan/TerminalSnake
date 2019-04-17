@@ -5,9 +5,10 @@
 #include <algorithm>
 #include "Game.hpp"
 
-Game::Game() : gameState(GameState::NOTSTARTED)
-             , UI(new UserInterface)
-             , windowSize(UI->initialize())
+Game::Game(std::unique_ptr<UserInterfaceI> UI)
+             : gameState(GameState::NOTSTARTED)
+             , UI(std::move(UI))
+             , windowSize(this->UI->initialize())
              , snake({static_cast<int>(windowSize.first/2)
 					, static_cast<int>(windowSize.second/2)}
 					, Direction::RIGHT)

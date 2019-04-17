@@ -15,7 +15,7 @@
 
 class Game {
 public:
-	Game();
+	explicit Game(std::unique_ptr<UserInterfaceI> UI);
 
 	void start();
 
