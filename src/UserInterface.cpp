@@ -44,7 +44,8 @@ void UserInterface::printGameOver(const std::string& customMsg) {
 	attron(A_BOLD);
 	mvprintw(windowSize.second / 2, (windowSize.first - static_cast<int>(gameOver.size())) / 2, gameOver.data());
 	if (!customMsg.empty()) {
-		mvprintw((windowSize.second / 2) + 1, (windowSize.first - static_cast<int>(customMsg.size())) / 2, customMsg.data());
+		mvprintw((windowSize.second / 2) + 1, (windowSize.first - static_cast<int>(customMsg.size())) / 2,
+		         customMsg.data());
 	}
 	echo();
 	refresh();

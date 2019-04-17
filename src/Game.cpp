@@ -9,8 +9,8 @@ Game::Game(std::unique_ptr<UserInterfaceI> UI)
              : gameState(GameState::NOTSTARTED)
              , UI(std::move(UI))
              , windowSize(this->UI->initialize())
-             , snake({static_cast<int>(windowSize.first/2)
-					, static_cast<int>(windowSize.second/2)}
+             , snake({static_cast<int>(windowSize.first / 2)
+					, static_cast<int>(windowSize.second / 2)}
 					, Direction::NOTSPECIFIED)
 			 , seed()
 			 , randomGenerator(seed())
@@ -72,7 +72,8 @@ void Game::checkIfMoveValid() {
 
 bool Game::checkSelfColision() {
 	const auto& snakeBody = snake.getSnakeBody();
-	auto it = std::find_if(snakeBody.rbegin(), snakeBody.rend() - 1, [&](const auto& val){ return val == snakeBody.front(); });
+	auto it = std::find_if(snakeBody.rbegin(), snakeBody.rend() - 1,
+	                       [&](const auto& val) { return val == snakeBody.front(); });
 
 	if (it == snakeBody.rend() - 1) {
 		return false;
@@ -82,7 +83,8 @@ bool Game::checkSelfColision() {
 }
 
 bool Game::checkWallColision(const Point& move) {
-	return move.x < 0 || move.x >= static_cast<int>(windowSize.first) || move.y < 0 || move.y >= static_cast<int>(windowSize.second);
+	return move.x < 0 || move.x >= static_cast<int>(windowSize.first) ||
+	       move.y < 0 || move.y >= static_cast<int>(windowSize.second);
 }
 
 bool Game::checkIfAteFood() {
