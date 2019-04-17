@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <vector>
+#include <random>
 #include "Snake.hpp"
 #include "UserInterface.hpp"
 #include "Point.hpp"
@@ -42,6 +43,11 @@ private:
 	Snake snake;
 
 	std::vector<Point> food;
+
+	std::random_device seed;
+	std::mt19937 randomGenerator;
+	std::uniform_int_distribution<> xDistribution;
+	std::uniform_int_distribution<> yDistribution;
 };
 
 

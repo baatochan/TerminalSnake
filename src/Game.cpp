@@ -2,7 +2,6 @@
 // Created by a19stude on 4/17/19.
 //
 
-#include <random>
 #include <algorithm>
 #include "Game.hpp"
 
@@ -11,7 +10,11 @@ Game::Game() : gameState(GameState::NOTSTARTED)
              , windowSize(UI->initialize())
              , snake({static_cast<int>(windowSize.first/2)
 					, static_cast<int>(windowSize.second/2)}
-					, Direction::RIGHT) {
+					, Direction::RIGHT)
+			 , seed()
+			 , randomGenerator(seed())
+			 , xDistribution(0, windowSize.first)
+			 , yDistribution(0, windowSize.second) {
 	for (int i = 0; i < 3; ++i) {
 		food.push_back(this->generateRandomPoint());
 	}
@@ -95,11 +98,6 @@ bool Game::checkIfAteFood() {
 }
 
 Point Game::generateRandomPoint() {
-	std::random_device seed;
-	std::mt19937 randomGenerator(seed());
-	std::uniform_int_distribution<> xDistribution(1, windowSize.first);
-	std::uniform_int_distribution<> yDistribution(1, windowSize.second);
-
 	// check for occupied points
 
 	return {xDistribution(randomGenerator), yDistribution(randomGenerator)};
