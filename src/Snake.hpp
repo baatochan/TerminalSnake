@@ -16,6 +16,8 @@ public:
 
 	void makeAMove();
 
+	void grow();
+
 	bool setDirection(Direction newDirection);
 
 	const std::deque<Point>& getSnakeBody() const;

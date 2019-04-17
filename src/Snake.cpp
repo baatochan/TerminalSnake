@@ -28,7 +28,7 @@ void Snake::makeAMove() {
 			break;
 
 		case Direction::DOWN:
-			head.y--;
+			head.y++;
 			break;
 
 		case Direction::LEFT:
@@ -38,6 +38,12 @@ void Snake::makeAMove() {
 	}
 
 	snakeBody.push_front(head);
+}
+
+void Snake::grow() {
+	Point tmp = snakeBody.back();
+	this->makeAMove();
+	snakeBody.push_back(tmp);
 }
 
 bool Snake::setDirection(Direction newDirection) {
