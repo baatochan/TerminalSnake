@@ -11,7 +11,7 @@ Game::Game(std::unique_ptr<UserInterfaceI> UI)
              , windowSize(this->UI->initialize())
              , snake({static_cast<int>(windowSize.first/2)
 					, static_cast<int>(windowSize.second/2)}
-					, Direction::RIGHT)
+					, Direction::NOTSPECIFIED)
 			 , seed()
 			 , randomGenerator(seed())
 			 , xDistribution(0, windowSize.first)
@@ -28,7 +28,6 @@ void Game::start() {
 
 void Game::mainLoop() {
 	gameState = GameState::INPROGRESS;
-	Direction dir = Direction::RIGHT; // have to be as the one passed in snake constructor
 	bool shouldGrow = false;
 	while (true) {
 		UI->clear();
@@ -40,8 +39,9 @@ void Game::mainLoop() {
 
 		UI->refresh();
 
-		dir = UI->getInput(dir);
-		snake.setDirection(dir);
+		Direction dir = UI->getInput();
+		if (dir != Direction::NOTSPECIFIED)
+			snake.setDirection(dir);
 
 		if (shouldGrow) {
 			snake.grow();

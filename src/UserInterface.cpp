@@ -49,7 +49,7 @@ void UserInterface::printGameOver() {
 	endwin();
 }
 
-Direction UserInterface::getInput(Direction previous) {
+Direction UserInterface::getInput() {
 	int ch = getch();
 	switch (ch) {
 		case KEY_LEFT:
@@ -61,6 +61,6 @@ Direction UserInterface::getInput(Direction previous) {
 		case KEY_UP:
 			return Direction::UP;
 		default:
-			return previous;
+			return Direction::NOTSPECIFIED;
 	}
 }

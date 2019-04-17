@@ -24,7 +24,7 @@ public:
 
 	virtual void printGameOver() = 0;
 
-	virtual Direction getInput(Direction previous) = 0;
+	virtual Direction getInput() = 0;
 };
 
 class UserInterface : public UserInterfaceI {
@@ -41,7 +41,7 @@ public:
 
 	void printGameOver() override;
 
-	Direction getInput(Direction previous) override;
+	Direction getInput() override;
 
 	std::pair<unsigned int, unsigned int> windowSize;
 
