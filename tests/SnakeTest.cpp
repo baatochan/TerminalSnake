@@ -14,11 +14,6 @@ protected:
 	std::deque<Point> state;
 };
 
-std::ostream& operator <<(std::ostream& out, const Point& p) {
-	out << "{ " << p.x << ", " << p.y << " }";
-	return out;
-}
-
 TEST_F(SnakeTest, snakeBeingCreatedSuccessfully) {
 	state = {{20, 40}, {19, 40}, {18, 40}};
 	EXPECT_EQ(state, uut.getSnakeBody());
