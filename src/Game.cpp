@@ -60,7 +60,8 @@ void Game::mainLoop() {
 }
 
 void Game::gameOver() {
-	UI->printGameOver();
+	std::string msg = "Snake size: " + std::to_string(snake.getSnakeBody().size());
+	UI->printGameOver(msg);
 }
 
 void Game::checkIfMoveValid() {

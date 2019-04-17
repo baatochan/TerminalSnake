@@ -39,10 +39,13 @@ void UserInterface::refresh() {
 	::refresh();
 }
 
-void UserInterface::printGameOver() {
+void UserInterface::printGameOver(const std::string& customMsg) {
 	std::string gameOver = "Game Over!";
 	attron(A_BOLD);
-	mvprintw(windowSize.second/2, (windowSize.first - static_cast<int>(gameOver.size()))/2, gameOver.data());
+	mvprintw(windowSize.second / 2, (windowSize.first - static_cast<int>(gameOver.size())) / 2, gameOver.data());
+	if (!customMsg.empty()) {
+		mvprintw((windowSize.second / 2) + 1, (windowSize.first - static_cast<int>(customMsg.size())) / 2, customMsg.data());
+	}
 	echo();
 	refresh();
 	std::this_thread::sleep_for(std::chrono::seconds(2));

@@ -22,7 +22,7 @@ public:
 
 	virtual void refresh() = 0;
 
-	virtual void printGameOver() = 0;
+	virtual void printGameOver(const std::string& customMsg) = 0;
 
 	virtual Direction getInput() = 0;
 };
@@ -39,7 +39,7 @@ public:
 
 	void refresh() override;
 
-	void printGameOver() override;
+	void printGameOver(const std::string& customMsg) override;
 
 	Direction getInput() override;
 
