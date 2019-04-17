@@ -12,6 +12,8 @@ add_definitions(
 
 add_subdirectory(googletest)
 
+set(CURSES_USE_NCURSES TRUE)
+
 find_package(Curses REQUIRED)
 find_package(Threads REQUIRED)
 enable_testing()
@@ -25,5 +27,5 @@ add_executable(TerminalSnake src/main.cpp ${SOURCE_FILES} src/Enums.hpp)
 add_executable(runAllTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
 
 target_link_libraries(TerminalSnake ${CURSES_LIBRARIES})
-target_link_libraries(runAllTests gtest gmock gtest_main Threads::Threads)
+target_link_libraries(runAllTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
 add_test(AllTests runAllTests)
