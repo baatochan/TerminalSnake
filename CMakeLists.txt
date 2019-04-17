@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.13)
+project(TerminalSnake)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_subdirectory(googletest)
+
+find_package(Curses REQUIRED)
+find_package(Threads REQUIRED)
+enable_testing()
+include_directories(${CURSES_INCLUDE_DIRS})
+include_directories(${GTEST_SOURCE_DIR}/include ${GTEST_SOURCE_DIR})
+
+set(SOURCE_FILES)
+set(TESTS_SOURCE_FILES)
+
+add_executable(TerminalSnake src/main.cpp ${SOURCE_FILES})
+add_executable(runAllTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
+
+target_link_libraries(TerminalSnake ${CURSES_LIBRARIES})
+target_link_libraries(runAllTests gtest gmock gtest_main Threads::Threads)
+add_test(AllTests runAllTests)
