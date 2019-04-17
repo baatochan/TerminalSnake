@@ -25,13 +25,13 @@ void UserInterface::clear() {
 	::clear();
 }
 
-void UserInterface::drawDeque(const std::deque<Point>& object, const chtype symbol) {
+void UserInterface::drawDeque(const std::deque<Point>& object, const char symbol) {
 	for (const auto& el : object) {
 		mvaddch(el.y, el.x, symbol);
 	}
 }
 
-void UserInterface::drawPoint(Point object, const chtype symbol) {
+void UserInterface::drawPoint(Point object, const char symbol) {
 	mvaddch(object.y, object.x, symbol);
 }
 

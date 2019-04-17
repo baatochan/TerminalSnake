@@ -29,9 +29,9 @@ void Game::mainLoop() {
 	while (true) {
 		UI->clear();
 
-		UI->drawDeque(snake.getSnakeBody(), ACS_BLOCK); //should be sth diffrent i guess
+		UI->drawDeque(snake.getSnakeBody(), '#');
 		for (const auto& el : food) {
-			UI->drawPoint(el, ACS_DIAMOND);
+			UI->drawPoint(el, 'X');
 		}
 
 		UI->refresh();
