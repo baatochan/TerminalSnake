@@ -5,7 +5,6 @@
 #ifndef TERMINALSNAKE_USERINTERFACE_HPP
 #define TERMINALSNAKE_USERINTERFACE_HPP
 
-#include <ncurses.h>
 #include <utility>
 #include <deque>
 #include "Point.hpp"
@@ -17,9 +16,9 @@ public:
 
 	virtual void clear() = 0;
 
-	virtual void drawDeque(const std::deque<Point>& object, chtype symbol) = 0;
+	virtual void drawDeque(const std::deque<Point>& object, char symbol) = 0;
 
-	virtual void drawPoint(Point object, chtype symbol) = 0;
+	virtual void drawPoint(Point object, char symbol) = 0;
 
 	virtual void refresh() = 0;
 
@@ -34,9 +33,9 @@ public:
 
 	void clear() override;
 
-	void drawDeque(const std::deque<Point>& object, chtype symbol) override;
+	void drawDeque(const std::deque<Point>& object, char symbol) override;
 
-	void drawPoint(Point object, chtype symbol) override;
+	void drawPoint(Point object, char symbol) override;
 
 	void refresh() override;
 

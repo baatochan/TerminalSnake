@@ -77,7 +77,7 @@ bool Game::checkSelfColision() {
 }
 
 bool Game::checkWallColision(const Point& move) {
-	return move.x < 0 || move.x >= windowSize.first || move.y < 0 || move.y >= windowSize.second;
+	return move.x < 0 || move.x >= static_cast<int>(windowSize.first) || move.y < 0 || move.y >= static_cast<int>(windowSize.second);
 }
 
 bool Game::checkIfAteFood() {

@@ -42,7 +42,7 @@ void UserInterface::refresh() {
 void UserInterface::printGameOver() {
 	std::string gameOver = "Game Over!";
 	attron(A_BOLD);
-	mvprintw(windowSize.second/2, (windowSize.first - gameOver.size())/2, gameOver.data());
+	mvprintw(windowSize.second/2, (windowSize.first - static_cast<int>(gameOver.size()))/2, gameOver.data());
 	echo();
 	refresh();
 	std::this_thread::sleep_for(std::chrono::seconds(2));
