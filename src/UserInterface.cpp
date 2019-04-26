@@ -8,7 +8,7 @@
 #include <thread>
 #include "UserInterface.hpp"
 
-std::pair<unsigned int, unsigned int> UserInterface::initialize() {
+Dimension UserInterface::initialize() {
 	initscr();
 	cbreak();
 	noecho();
@@ -16,7 +16,7 @@ std::pair<unsigned int, unsigned int> UserInterface::initialize() {
 	curs_set(0); // hide cursor
 	timeout(100);
 
-	getmaxyx(stdscr, windowSize.second, windowSize.first);
+	getmaxyx(stdscr, windowSize.width, windowSize.height);
 
 	return windowSize;
 }
@@ -42,9 +42,9 @@ void UserInterface::refresh() {
 void UserInterface::printGameOver(const std::string& customMsg) {
 	std::string gameOver = "Game Over!";
 	attron(A_BOLD);
-	mvprintw(windowSize.second / 2, (windowSize.first - static_cast<int>(gameOver.size())) / 2, gameOver.data());
+	mvprintw(windowSize.width / 2, (windowSize.height - static_cast<int>(gameOver.size())) / 2, gameOver.data());
 	if (!customMsg.empty()) {
-		mvprintw((windowSize.second / 2) + 1, (windowSize.first - static_cast<int>(customMsg.size())) / 2,
+		mvprintw((windowSize.width / 2) + 1, (windowSize.height - static_cast<int>(customMsg.size())) / 2,
 		         customMsg.data());
 	}
 	echo();
@@ -68,3 +68,5 @@ Direction UserInterface::getInput() {
 			return Direction::NOTSPECIFIED;
 	}
 }
+
+UserInterface::UserInterface() : windowSize({0, 0}) {}

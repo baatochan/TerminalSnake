@@ -8,14 +8,14 @@
 Game::Game(std::unique_ptr<UserInterfaceI> UI)
              : gameState(GameState::NOTSTARTED)
              , UI(std::move(UI))
-             , windowSize(this->UI->initialize())
-             , snake({static_cast<int>(windowSize.first / 2)
-					, static_cast<int>(windowSize.second / 2)}
+             , boardSize(this->UI->initialize())
+             , snake({static_cast<int>(boardSize.height / 2)
+					, static_cast<int>(boardSize.width / 2)}
 					, Direction::NOTSPECIFIED)
 			 , seed()
 			 , randomGenerator(seed())
-			 , xDistribution(0, windowSize.first)
-			 , yDistribution(0, windowSize.second) {
+			 , xDistribution(0, boardSize.height)
+			 , yDistribution(0, boardSize.width) {
 	for (int i = 0; i < 3; ++i) {
 		food.push_back(this->generateRandomPoint());
 	}
@@ -81,8 +81,7 @@ bool Game::checkSelfCollision() {
 }
 
 bool Game::checkWallCollision(const Point& move) {
-	return move.x < 0 || move.x >= static_cast<int>(windowSize.first) ||
-	       move.y < 0 || move.y >= static_cast<int>(windowSize.second);
+	return !boardSize.isInside(move);
 }
 
 bool Game::checkIfAteFood() {

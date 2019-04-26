@@ -12,6 +12,7 @@
 #include "Snake.hpp"
 #include "UserInterface.hpp"
 #include "Point.hpp"
+#include "Dimension.hpp"
 
 class Game {
 public:
@@ -38,7 +39,7 @@ private:
 
 	std::unique_ptr<UserInterfaceI> UI;
 
-	std::pair<unsigned int, unsigned int> windowSize;
+	Dimension boardSize;
 
 	Snake snake;
 

@@ -9,10 +9,11 @@
 #include <deque>
 #include "Point.hpp"
 #include "Enums.hpp"
+#include "Dimension.hpp"
 
 class UserInterfaceI {
 public:
-	virtual std::pair<unsigned int, unsigned int> initialize() = 0;
+	virtual Dimension initialize() = 0;
 
 	virtual void clear() = 0;
 
@@ -29,7 +30,9 @@ public:
 
 class UserInterface : public UserInterfaceI {
 public:
-	std::pair<unsigned int, unsigned int> initialize() override;
+	UserInterface();
+
+	Dimension initialize() override;
 
 	void clear() override;
 
@@ -43,7 +46,7 @@ public:
 
 	Direction getInput() override;
 
-	std::pair<unsigned int, unsigned int> windowSize;
+	Dimension windowSize;
 
 };
 
