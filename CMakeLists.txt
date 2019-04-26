@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.2)
 project(TerminalSnake)
 
 ### Set default build type ###
@@ -9,7 +9,7 @@ if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
 endif()
 
 ### Basic settings ###
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES src/Enums.hpp src/Game.cpp src/Game.hpp src/Snake.cpp src/Snake.hpp src/UserInterface.cpp src/UserInterface.hpp src/Point.cpp src/Point.hpp src/Dimension.cpp src/Dimension.hpp)
 set(TESTS_SOURCE_FILES tests/SnakeTest.cpp tests/PointTest.cpp)
