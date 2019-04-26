@@ -88,6 +88,8 @@ bool Snake::setDirection(Direction newDirection) {
 			}
 
 	}
+
+	return false;
 }
 
 const std::deque<Point>& Snake::getSnakeBody() const {
