@@ -34,8 +34,8 @@ set(SOURCE_FILES src/Enums.hpp src/Game.cpp src/Game.hpp src/Snake.cpp src/Snake
 set(TESTS_SOURCE_FILES tests/SnakeTest.cpp tests/PointTest.cpp)
 
 add_executable(TerminalSnake src/main.cpp ${SOURCE_FILES})
-add_executable(runAllTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
+add_executable(UnitTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
 
 target_link_libraries(TerminalSnake ${CURSES_LIBRARIES})
-target_link_libraries(runAllTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
-add_test(AllTests runAllTests)
+target_link_libraries(UnitTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
+add_test(AllTests UnitTests)
