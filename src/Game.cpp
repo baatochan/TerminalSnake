@@ -100,7 +100,13 @@ bool Game::checkIfAteFood() {
 }
 
 Point Game::generateRandomPoint() {
-	// check for occupied points
+	bool newPositionValid;
+	do {
+		Point newFood = {xDistribution(randomGenerator), yDistribution(randomGenerator)};
+
+		auto it = std::find_if(food.begin(), food.end(), [&](const auto& val) { return val == newFood; });
+		newPositionValid = it == food.end(); // newPositionValid if different than all other food
+	} while (!newPositionValid);
 
 	return {xDistribution(randomGenerator), yDistribution(randomGenerator)};
 }
