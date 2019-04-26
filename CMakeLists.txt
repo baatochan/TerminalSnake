@@ -39,3 +39,9 @@ add_executable(UnitTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
 target_link_libraries(TerminalSnake ${CURSES_LIBRARIES})
 target_link_libraries(UnitTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
 add_test(AllTests UnitTests)
+
+add_custom_target(run
+		COMMAND TerminalSnake
+		DEPENDS TerminalSnake
+		WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+)
