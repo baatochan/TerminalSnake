@@ -14,7 +14,11 @@ add_subdirectory(googletest)
 
 set(CURSES_USE_NCURSES TRUE)
 
-find_package(Curses REQUIRED)
+find_package(Curses) # not using REQUIRED for custom error message
+if (NOT ${CURSES_FOUND})
+	MESSAGE(FATAL_ERROR "Could not find Curses.\nYou can install it using \"sudo apt-get install libncurses5-dev\".")
+endif (NOT ${CURSES_FOUND})
+
 find_package(Threads REQUIRED)
 enable_testing()
 include_directories(${CURSES_INCLUDE_DIRS})
