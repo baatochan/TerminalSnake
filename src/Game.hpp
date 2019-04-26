@@ -26,9 +26,9 @@ private:
 
 	void checkIfMoveValid();
 
-	bool checkSelfColision();
+	bool checkSelfCollision();
 
-	bool checkWallColision(const Point& move);
+	bool checkWallCollision(const Point& move);
 
 	bool checkIfAteFood();
 

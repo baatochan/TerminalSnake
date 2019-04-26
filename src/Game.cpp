@@ -65,24 +65,22 @@ void Game::gameOver() {
 }
 
 void Game::checkIfMoveValid() {
-	if (checkSelfColision() || checkWallColision(snake.getSnakeBody().front())) {
+	if (checkSelfCollision() || checkWallCollision(snake.getSnakeBody().front())) {
 		gameState = GameState::GAMEOVER;
 	}
 }
 
-bool Game::checkSelfColision() {
+bool Game::checkSelfCollision() {
 	const auto& snakeBody = snake.getSnakeBody();
-	auto it = std::find_if(snakeBody.rbegin(), snakeBody.rend() - 1,
+	auto headPositionIt = snakeBody.rend() - 1;
+
+	auto it = std::find_if(snakeBody.rbegin(), headPositionIt,
 	                       [&](const auto& val) { return val == snakeBody.front(); });
 
-	if (it == snakeBody.rend() - 1) {
-		return false;
-	} else {
-		return true;
-	}
+	return !(it == headPositionIt);
 }
 
-bool Game::checkWallColision(const Point& move) {
+bool Game::checkWallCollision(const Point& move) {
 	return move.x < 0 || move.x >= static_cast<int>(windowSize.first) ||
 	       move.y < 0 || move.y >= static_cast<int>(windowSize.second);
 }
