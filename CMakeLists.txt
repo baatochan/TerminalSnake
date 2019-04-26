@@ -46,12 +46,13 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo
 	find_package(Threads REQUIRED)
 
 	add_subdirectory(googletest)
-	enable_testing()
 	include_directories(${GTEST_SOURCE_DIR}/include ${GTEST_SOURCE_DIR})
 
 	add_executable(UnitTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
 
 	target_link_libraries(UnitTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
+
+	enable_testing()
 	add_test(AllTests UnitTests)
 
 	### Run unit test target (only for Debug and RelWithDebInfo) ###
@@ -66,7 +67,7 @@ endif()
 install(TARGETS TerminalSnake
 		DESTINATION bin
 		CONFIGURATIONS Release MinSizeRel
-		)
+)
 
 ### Change install location to './nope/' to prevent accidental installation of gtest (for Debug and RelWithDebInfo) ###
 if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
