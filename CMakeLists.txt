@@ -1,31 +1,75 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.2)
 project(TerminalSnake)
 
-set(CMAKE_CXX_STANDARD 17)
+### Set default build type ###
+if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
+	if (NOT CMAKE_BUILD_TYPE)
+		set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+	endif()
+endif()
 
-add_definitions(
-		-Wall
-		-Wextra
-		-Wpedantic
-		-Wfatal-errors
-)
-
-add_subdirectory(googletest)
-
-set(CURSES_USE_NCURSES TRUE)
-
-find_package(Curses REQUIRED)
-find_package(Threads REQUIRED)
-enable_testing()
-include_directories(${CURSES_INCLUDE_DIRS})
-include_directories(${GTEST_SOURCE_DIR}/include ${GTEST_SOURCE_DIR})
+### Basic settings ###
+set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES src/Enums.hpp src/Game.cpp src/Game.hpp src/Snake.cpp src/Snake.hpp src/UserInterface.cpp src/UserInterface.hpp src/Point.cpp src/Point.hpp src/Dimension.cpp src/Dimension.hpp)
 set(TESTS_SOURCE_FILES tests/SnakeTest.cpp tests/PointTest.cpp)
 
+### Basic target - Terminal Snake ###
+set(CURSES_USE_NCURSES TRUE)
+find_package(Curses) # not using REQUIRED for custom error message
+if (NOT ${CURSES_FOUND})
+	message(FATAL_ERROR "Could not find Curses.\nYou can install it using \"sudo apt-get install libncurses5-dev\".")
+endif()
+include_directories(${CURSES_INCLUDE_DIRS})
+
 add_executable(TerminalSnake src/main.cpp ${SOURCE_FILES})
-add_executable(runAllTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
 
 target_link_libraries(TerminalSnake ${CURSES_LIBRARIES})
-target_link_libraries(runAllTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
-add_test(AllTests runAllTests)
+
+### Run target ###
+add_custom_target(run
+		COMMAND TerminalSnake
+		DEPENDS TerminalSnake
+		WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+)
+
+if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
+	### Basic settings for Debug ###
+	add_definitions(
+			-Wall
+			-Wextra
+			-Wpedantic
+			-Wfatal-errors
+	)
+
+	### Unit test target (only for Debug and RelWithDebInfo) ###
+	find_package(Threads REQUIRED)
+
+	add_subdirectory(googletest)
+	include_directories(${GTEST_SOURCE_DIR}/include ${GTEST_SOURCE_DIR})
+
+	add_executable(UnitTests ${TESTS_SOURCE_FILES} ${SOURCE_FILES})
+
+	target_link_libraries(UnitTests gtest gmock gtest_main Threads::Threads ${CURSES_LIBRARIES})
+
+	enable_testing()
+	add_test(AllTests UnitTests)
+
+	### Run unit test target (only for Debug and RelWithDebInfo) ###
+	add_custom_target(runUnitTests
+			COMMAND UnitTests
+			DEPENDS UnitTests
+			WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+	)
+endif()
+
+### Install target (only for Release and MinSizeRel) ###
+install(TARGETS TerminalSnake
+		DESTINATION bin
+		CONFIGURATIONS Release MinSizeRel
+)
+
+### Change install location to './nope/' to prevent accidental installation of gtest (for Debug and RelWithDebInfo) ###
+if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
+	set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/nope CACHE PATH "install here" FORCE)
+endif()
