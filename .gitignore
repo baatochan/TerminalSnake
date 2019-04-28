@@ -8,6 +8,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+# WSL run debug config
+deployment.xml
+
 # Generated files
 .idea/**/contentModel.xml
 
@@ -33,7 +36,8 @@
 # .idea/modules
 
 # CMake
-cmake-build-*/
+cmake*/
+build*/
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
