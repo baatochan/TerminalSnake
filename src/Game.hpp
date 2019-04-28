@@ -29,7 +29,7 @@ private:
 
 	bool checkSelfCollision();
 
-	bool checkWallCollision(const Point& move);
+	bool checkWallCollision();
 
 	bool checkIfAteFood();
 

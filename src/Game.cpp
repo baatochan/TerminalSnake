@@ -65,23 +65,22 @@ void Game::gameOver() {
 }
 
 void Game::checkIfMoveValid() {
-	if (checkSelfCollision() || checkWallCollision(snake.getSnakeBody().front())) {
+	if (checkSelfCollision() || checkWallCollision()) {
 		gameState = GameState::GAMEOVER;
 	}
 }
 
 bool Game::checkSelfCollision() {
 	const auto& snakeBody = snake.getSnakeBody();
-	auto headPositionIt = snakeBody.rend() - 1;
+	auto headPositionIt = snakeBody.rend() - 1; // head have to be excluded from find as we look if head is equal to any other point
 
-	auto it = std::find_if(snakeBody.rbegin(), headPositionIt,
-	                       [&](const auto& val) { return val == snakeBody.front(); });
+	auto it = std::find(snakeBody.rbegin(), headPositionIt, snakeBody.front());
 
 	return !(it == headPositionIt);
 }
 
-bool Game::checkWallCollision(const Point& move) {
-	return !boardSize.isInside(move);
+bool Game::checkWallCollision() {
+	return !boardSize.isInside(snake.getSnakeBody().front());
 }
 
 bool Game::checkIfAteFood() {
