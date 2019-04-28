@@ -33,7 +33,7 @@ private:
 
 	bool checkIfAteFood();
 
-	Point generateRandomPoint();
+	Point generateFoodPosition();
 
 	GameState gameState;
 

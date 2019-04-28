@@ -14,10 +14,10 @@ Game::Game(std::unique_ptr<UserInterfaceI> UI)
 					, Direction::NOTSPECIFIED)
 			 , seed()
 			 , randomGenerator(seed())
-			 , xDistribution(0, boardSize.height)
-			 , yDistribution(0, boardSize.width) {
+			 , xDistribution(0, boardSize.height - 1)
+			 , yDistribution(0, boardSize.width - 1) {
 	for (int i = 0; i < 3; ++i) {
-		food.push_back(this->generateRandomPoint());
+		food.push_back(this->generateFoodPosition());
 	}
 }
 
@@ -90,7 +90,7 @@ bool Game::checkIfAteFood() {
 	for (auto it = food.begin(); it < food.end(); ++it) {
 		if (*it == snakeHead) {
 			food.erase(it);
-			food.push_back(generateRandomPoint());
+			food.push_back(generateFoodPosition());
 			return true;
 		}
 	}
@@ -98,14 +98,16 @@ bool Game::checkIfAteFood() {
 	return false;
 }
 
-Point Game::generateRandomPoint() {
+Point Game::generateFoodPosition() {
 	bool newPositionValid;
-	do {
-		Point newFood = {xDistribution(randomGenerator), yDistribution(randomGenerator)};
+	Point newFood{};
 
-		auto it = std::find_if(food.begin(), food.end(), [&](const auto& val) { return val == newFood; });
+	do {
+		newFood = {xDistribution(randomGenerator), yDistribution(randomGenerator)};
+
+		auto it = std::find(food.begin(), food.end(), newFood);
 		newPositionValid = it == food.end(); // newPositionValid if different than all other food
 	} while (!newPositionValid);
 
-	return {xDistribution(randomGenerator), yDistribution(randomGenerator)};
+	return newFood;
 }
