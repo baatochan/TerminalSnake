@@ -72,11 +72,11 @@ void Game::checkIfMoveValid() {
 
 bool Game::checkSelfCollision() {
 	const auto& snakeBody = snake.getSnakeBody();
-	auto headPositionIt = snakeBody.rend() - 1; // head have to be excluded from find as we look if head is equal to any other point
 
-	auto it = std::find(snakeBody.rbegin(), headPositionIt, snakeBody.front());
+	// head have to be excluded from find as we look if head is equal to any other point
+	auto it = std::find(snakeBody.begin() + 1, snakeBody.end(), snakeBody.front());
 
-	return !(it == headPositionIt);
+	return !(it == snakeBody.end());
 }
 
 bool Game::checkWallCollision() {
