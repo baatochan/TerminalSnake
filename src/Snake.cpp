@@ -5,7 +5,8 @@
 #include <stdexcept>
 #include "Snake.hpp"
 
-Snake::Snake(Point startingPoint, Direction startingDirection, int startingSize) : currentDirection(startingDirection) {
+Snake::Snake(Point startingPoint, Direction startingDirection, int startingSize)
+           : currentDirection(startingDirection) {
 	for (int i = 0; i < startingSize; ++i) {
 		snakeBody.push_back(startingPoint);
 		startingPoint.x--;

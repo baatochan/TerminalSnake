@@ -18,7 +18,8 @@ struct Point {
 
 // Hack in a hash implementation for Point
 namespace std {
-	template<> struct hash<Point> {
+	template<>
+	struct hash<Point> {
 		std::size_t operator ()(const Point& v) const noexcept {
 			const std::size_t hx = std::hash<int>{}(v.x);
 			const std::size_t hy = std::hash<int>{}(v.y);
