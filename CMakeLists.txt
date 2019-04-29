@@ -12,7 +12,6 @@ endif()
 set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES src/Enums.hpp src/Game.cpp src/Game.hpp src/Snake.cpp src/Snake.hpp src/UserInterface.cpp src/UserInterface.hpp src/Point.cpp src/Point.hpp src/Dimension.cpp src/Dimension.hpp)
-set(TESTS_SOURCE_FILES tests/SnakeTest.cpp tests/PointTest.cpp)
 
 ### Basic target - Terminal Snake ###
 set(CURSES_USE_NCURSES TRUE)
@@ -41,6 +40,8 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo
 			-Wpedantic
 			-Wfatal-errors
 	)
+
+	set(TESTS_SOURCE_FILES tests/SnakeTest.cpp tests/PointTest.cpp tests/DimensionTest.cpp)
 
 	### Unit test target (only for Debug and RelWithDebInfo) ###
 	find_package(Threads REQUIRED)
