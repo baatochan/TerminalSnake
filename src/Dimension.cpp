@@ -5,7 +5,7 @@
 #include "Dimension.hpp"
 
 bool Dimension::isInside(const Point& point) const {
-	return (positiveLessThan(point.x, height) && positiveLessThan(point.y, width));
+	return (positiveLessThan(point.x, width) && positiveLessThan(point.y, height));
 }
 
 bool Dimension::positiveLessThan(int value, int max) const {

@@ -16,7 +16,7 @@ Dimension UserInterface::initialize() {
 	curs_set(0); // hide cursor
 	timeout(100);
 
-	getmaxyx(stdscr, windowSize.width, windowSize.height);
+	getmaxyx(stdscr, windowSize.height, windowSize.width);
 
 	return windowSize;
 }
@@ -42,9 +42,9 @@ void UserInterface::refresh() {
 void UserInterface::printGameOver(const std::string& customMsg) {
 	std::string gameOver = "Game Over!";
 	attron(A_BOLD);
-	mvprintw(windowSize.width / 2, (windowSize.height - static_cast<int>(gameOver.size())) / 2, gameOver.data());
+	mvprintw(windowSize.height / 2, (windowSize.width - static_cast<int>(gameOver.size())) / 2, gameOver.data());
 	if (!customMsg.empty()) {
-		mvprintw((windowSize.width / 2) + 1, (windowSize.height - static_cast<int>(customMsg.size())) / 2,
+		mvprintw((windowSize.height / 2) + 1, (windowSize.width - static_cast<int>(customMsg.size())) / 2,
 		         customMsg.data());
 	}
 	echo();

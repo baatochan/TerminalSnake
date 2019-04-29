@@ -9,13 +9,13 @@ Game::Game(std::unique_ptr<UserInterfaceI> UI)
              : gameState(GameState::NOTSTARTED)
              , UI(std::move(UI))
              , boardSize(this->UI->initialize())
-             , snake({static_cast<int>(boardSize.height / 2)
-					, static_cast<int>(boardSize.width / 2)}
+             , snake({static_cast<int>(boardSize.width / 2)
+					, static_cast<int>(boardSize.height / 2)}
 					, Direction::NOTSPECIFIED)
 			 , seed()
 			 , randomGenerator(seed())
-			 , xDistribution(0, boardSize.height - 1)
-			 , yDistribution(0, boardSize.width - 1) {
+			 , xDistribution(0, boardSize.width - 1)
+			 , yDistribution(0, boardSize.height - 1) {
 	for (int i = 0; i < 3; ++i) {
 		this->insertNewFood();
 	}
