@@ -17,7 +17,7 @@ Game::Game(std::unique_ptr<UserInterfaceI> UI)
 			 , xDistribution(0, boardSize.height - 1)
 			 , yDistribution(0, boardSize.width - 1) {
 	for (int i = 0; i < 3; ++i) {
-		food.push_back(this->generateFoodPosition());
+		this->insertNewFood();
 	}
 }
 
@@ -86,10 +86,10 @@ bool Game::checkWallCollision() {
 bool Game::checkIfAteFood() {
 	const auto& snakeHead = snake.getSnakeBody().front();
 
-	for (auto it = food.begin(); it < food.end(); ++it) {
+	for (auto it = food.begin(); it != food.end(); ++it) {
 		if (*it == snakeHead) {
 			food.erase(it);
-			food.push_back(generateFoodPosition());
+			this->insertNewFood();
 			return true;
 		}
 	}
@@ -97,16 +97,12 @@ bool Game::checkIfAteFood() {
 	return false;
 }
 
-Point Game::generateFoodPosition() {
-	bool newPositionValid;
-	Point newFood{};
+void Game::insertNewFood() {
+	while (true) {
+		// [iterator, inserted]
+		const auto result = food.insert({xDistribution(randomGenerator),
+		                                 yDistribution(randomGenerator)});
 
-	do {
-		newFood = {xDistribution(randomGenerator), yDistribution(randomGenerator)};
-
-		auto it = std::find(food.begin(), food.end(), newFood);
-		newPositionValid = it == food.end(); // newPositionValid if different than all other food
-	} while (!newPositionValid);
-
-	return newFood;
+		if (result.second) return;
+	}
 }

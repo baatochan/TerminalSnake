@@ -7,7 +7,7 @@
 
 
 #include <memory>
-#include <vector>
+#include <unordered_set>
 #include <random>
 #include "Snake.hpp"
 #include "UserInterface.hpp"
@@ -33,7 +33,7 @@ private:
 
 	bool checkIfAteFood();
 
-	Point generateFoodPosition();
+	void insertNewFood();
 
 	GameState gameState;
 
@@ -43,7 +43,7 @@ private:
 
 	Snake snake;
 
-	std::vector<Point> food;
+	std::unordered_set<Point> food;
 
 	std::random_device seed;
 	std::mt19937 randomGenerator;
