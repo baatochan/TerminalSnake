@@ -5,12 +5,11 @@
 #include <stdexcept>
 #include "Snake.hpp"
 
-Snake::Snake(Point startingPoint, Direction startingDirection) : currentDirection(startingDirection) {
-	snakeBody.push_back(startingPoint);
-	startingPoint.x--;
-	snakeBody.push_back(startingPoint);
-	startingPoint.x--;
-	snakeBody.push_back(startingPoint);
+Snake::Snake(Point startingPoint, Direction startingDirection, int startingSize) : currentDirection(startingDirection) {
+	for (int i = 0; i < startingSize; ++i) {
+		snakeBody.push_back(startingPoint);
+		startingPoint.x--;
+	}
 }
 
 void Snake::makeAMove() {

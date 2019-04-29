@@ -16,7 +16,7 @@
 
 class Game {
 public:
-	explicit Game(std::unique_ptr<UserInterfaceI> UI);
+	Game(std::unique_ptr<UserInterfaceI> UI, int snakeStartingSize, int amountOfFood);
 
 	void start();
 

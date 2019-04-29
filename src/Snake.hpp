@@ -12,7 +12,7 @@
 
 class Snake {
 public:
-	Snake(Point startingPoint, Direction startingDirection);
+	Snake(Point startingPoint, Direction startingDirection, int startingSize);
 
 	void makeAMove();
 

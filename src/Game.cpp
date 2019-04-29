@@ -5,18 +5,19 @@
 #include <algorithm>
 #include "Game.hpp"
 
-Game::Game(std::unique_ptr<UserInterfaceI> UI)
+Game::Game(std::unique_ptr<UserInterfaceI> UI, int snakeStartingSize, int amountOfFood)
              : gameState(GameState::NOTSTARTED)
              , UI(std::move(UI))
              , boardSize(this->UI->initialize())
              , snake({static_cast<int>(boardSize.width / 2)
-					, static_cast<int>(boardSize.height / 2)}
-					, Direction::NOTSPECIFIED)
+				    , static_cast<int>(boardSize.height / 2)}
+				    , Direction::NOTSPECIFIED
+				    , snakeStartingSize)
 			 , seed()
 			 , randomGenerator(seed())
 			 , xDistribution(0, boardSize.width - 1)
 			 , yDistribution(0, boardSize.height - 1) {
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < amountOfFood; ++i) {
 		this->insertNewFood();
 	}
 }

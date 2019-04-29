@@ -7,7 +7,7 @@
 
 class SnakeTest : public ::testing::Test {
 protected:
-	SnakeTest() : uut({20, 40}, Direction::RIGHT) {}
+	SnakeTest() : uut({20, 40}, Direction::RIGHT, 3) {}
 
 	Snake uut;
 
