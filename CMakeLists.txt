@@ -27,18 +27,18 @@ target_link_libraries(TerminalSnake ${CURSES_LIBRARIES})
 
 ### Run target ###
 add_custom_target(run
-		COMMAND TerminalSnake
-		DEPENDS TerminalSnake
-		WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+        COMMAND TerminalSnake
+        DEPENDS TerminalSnake
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
 	### Basic settings for Debug ###
 	add_definitions(
-			-Wall
-			-Wextra
-			-Wpedantic
-			-Wfatal-errors
+	        -Wall
+	        -Wextra
+	        -Wpedantic
+	        -Wfatal-errors
 	)
 
 	set(TESTS_SOURCE_FILES tests/SnakeTest.cpp tests/PointTest.cpp tests/DimensionTest.cpp)
@@ -60,9 +60,9 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo
 
 	### Run unit test target (only for Debug and RelWithDebInfo) ###
 	add_custom_target(runUnitTests
-			COMMAND UnitTests
-			DEPENDS UnitTests
-			WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+	        COMMAND UnitTests
+	        DEPENDS UnitTests
+	        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 	)
 endif()
 
@@ -73,6 +73,6 @@ endif()
 
 if (INSTALL_TERMINALSNAKE MATCHES ON)
 	install(TARGETS TerminalSnake
-			DESTINATION bin
+	        DESTINATION bin
 	)
 endif()
