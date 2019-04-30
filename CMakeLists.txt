@@ -46,6 +46,8 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo
 	### Unit test target (only for Debug and RelWithDebInfo) ###
 	find_package(Threads REQUIRED)
 
+	option(INSTALL_GMOCK "Install Googletest's GMock?" OFF)
+	option(INSTALL_GTEST "Install Googletest's GTest?" OFF)
 	add_subdirectory(googletest)
 	include_directories(${GTEST_SOURCE_DIR}/include ${GTEST_SOURCE_DIR})
 
@@ -67,10 +69,4 @@ endif()
 ### Install target (only for Release and MinSizeRel) ###
 install(TARGETS TerminalSnake
 		DESTINATION bin
-		CONFIGURATIONS Release MinSizeRel
 )
-
-### Change install location to './nope/' to prevent accidental installation of gtest (for Debug and RelWithDebInfo) ###
-if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
-	set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/nope CACHE PATH "install here" FORCE)
-endif()
