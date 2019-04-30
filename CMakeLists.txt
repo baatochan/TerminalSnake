@@ -66,7 +66,13 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo
 	)
 endif()
 
-### Install target (only for Release and MinSizeRel) ###
-install(TARGETS TerminalSnake
-		DESTINATION bin
-)
+### Install target ###
+if (NOT DEFINED INSTALL_TERMINALSNAKE)
+	set(INSTALL_TERMINALSNAKE ON)
+endif()
+
+if (INSTALL_TERMINALSNAKE MATCHES ON)
+	install(TARGETS TerminalSnake
+			DESTINATION bin
+	)
+endif()
