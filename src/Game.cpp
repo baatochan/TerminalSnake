@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "Game.hpp"
 
-Game::Game(std::unique_ptr<UserInterfaceI> UI, int snakeStartingSize, int amountOfFood)
+Game::Game(std::unique_ptr<UserInterfaceI> UI, int snakeStartingSize = 3, int amountOfFood = 3)
          : gameState(GameState::NOTSTARTED)
          , UI(std::move(UI))
          , boardSize(this->UI->initialize())
