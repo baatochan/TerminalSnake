@@ -2,18 +2,23 @@
 // Created by a19stude on 4/17/19.
 //
 
-#include <random>
 #include <algorithm>
 #include "Game.hpp"
 
-Game::Game() : gameState(GameState::NOTSTARTED)
-             , UI(new UserInterface)
-             , windowSize(UI->initialize())
-             , snake({static_cast<int>(windowSize.first/2)
-					, static_cast<int>(windowSize.second/2)}
-					, Direction::RIGHT) {
-	for (int i = 0; i < 3; ++i) {
-		food.push_back(this->generateRandomPoint());
+Game::Game(std::unique_ptr<UserInterfaceI> UI, int snakeStartingSize = 3, int amountOfFood = 3)
+         : gameState(GameState::NOTSTARTED)
+         , UI(std::move(UI))
+         , boardSize(this->UI->initialize())
+         , snake({static_cast<int>(boardSize.width / 2)
+                , static_cast<int>(boardSize.height / 2)}
+                , Direction::NOTSPECIFIED
+                , snakeStartingSize)
+         , seed()
+         , randomGenerator(seed())
+         , xDistribution(0, boardSize.width - 1)
+         , yDistribution(0, boardSize.height - 1) {
+	for (int i = 0; i < amountOfFood; ++i) {
+		this->insertNewFood();
 	}
 }
 
@@ -24,7 +29,6 @@ void Game::start() {
 
 void Game::mainLoop() {
 	gameState = GameState::INPROGRESS;
-	Direction dir = Direction::RIGHT; // have to be as the one passed in snake constructor
 	bool shouldGrow = false;
 	while (true) {
 		UI->clear();
@@ -36,8 +40,9 @@ void Game::mainLoop() {
 
 		UI->refresh();
 
-		dir = UI->getInput(dir);
-		snake.setDirection(dir);
+		Direction dir = UI->getInput();
+		if (dir != Direction::NOTSPECIFIED)
+			snake.setDirection(dir);
 
 		if (shouldGrow) {
 			snake.grow();
@@ -56,37 +61,36 @@ void Game::mainLoop() {
 }
 
 void Game::gameOver() {
-	UI->printGameOver();
+	std::string msg = "Snake size: " + std::to_string(snake.getSnakeBody().size());
+	UI->printGameOver(msg);
 }
 
 void Game::checkIfMoveValid() {
-	if (checkSelfColision() || checkWallColision(snake.getSnakeBody().front())) {
+	if (checkSelfCollision() || checkWallCollision()) {
 		gameState = GameState::GAMEOVER;
 	}
 }
 
-bool Game::checkSelfColision() {
+bool Game::checkSelfCollision() {
 	const auto& snakeBody = snake.getSnakeBody();
-	auto it = std::find_if(snakeBody.rbegin(), snakeBody.rend() - 1, [&](const auto& val){ return val == snakeBody.front(); });
 
-	if (it == snakeBody.rend() - 1) {
-		return false;
-	} else {
-		return true;
-	}
+	// head have to be excluded from find as we look if head is equal to any other point
+	auto it = std::find(snakeBody.begin() + 1, snakeBody.end(), snakeBody.front());
+
+	return !(it == snakeBody.end());
 }
 
-bool Game::checkWallColision(const Point& move) {
-	return move.x < 0 || move.x >= static_cast<int>(windowSize.first) || move.y < 0 || move.y >= static_cast<int>(windowSize.second);
+bool Game::checkWallCollision() {
+	return !boardSize.isInside(snake.getSnakeBody().front());
 }
 
 bool Game::checkIfAteFood() {
 	const auto& snakeHead = snake.getSnakeBody().front();
 
-	for (auto it = food.begin(); it < food.end(); ++it) {
+	for (auto it = food.begin(); it != food.end(); ++it) {
 		if (*it == snakeHead) {
 			food.erase(it);
-			food.push_back(generateRandomPoint());
+			this->insertNewFood();
 			return true;
 		}
 	}
@@ -94,13 +98,12 @@ bool Game::checkIfAteFood() {
 	return false;
 }
 
-Point Game::generateRandomPoint() {
-	std::random_device seed;
-	std::mt19937 randomGenerator(seed());
-	std::uniform_int_distribution<> xDistribution(1, windowSize.first);
-	std::uniform_int_distribution<> yDistribution(1, windowSize.second);
+void Game::insertNewFood() {
+	while (true) {
+		// [iterator, inserted]
+		const auto result = food.insert({xDistribution(randomGenerator),
+		                                 yDistribution(randomGenerator)});
 
-	// check for occupied points
-
-	return {xDistribution(randomGenerator), yDistribution(randomGenerator)};
+		if (result.second) return;
+	}
 }

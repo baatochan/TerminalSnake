@@ -6,6 +6,7 @@
 #define TERMINALSNAKE_ENUMS_HPP
 
 enum class Direction {
+	NOTSPECIFIED,
 	UP,
 	DOWN,
 	LEFT,

@@ -2,22 +2,24 @@
 // Created by a19stude on 4/17/19.
 //
 
+#include <stdexcept>
 #include "Snake.hpp"
 
-Snake::Snake(Point startingPoint, Direction startingDirection) : currentDirection(startingDirection) {
-	snakeBody.push_back(startingPoint);
-	startingPoint.x--;
-	snakeBody.push_back(startingPoint);
-	startingPoint.x--;
-	snakeBody.push_back(startingPoint);
+Snake::Snake(Point startingPoint, Direction startingDirection, int startingSize)
+           : currentDirection(startingDirection) {
+	for (int i = 0; i < startingSize; ++i) {
+		snakeBody.push_back(startingPoint);
+		startingPoint.x--;
+	}
 }
 
 void Snake::makeAMove() {
-	snakeBody.pop_back();
-
 	Point head = snakeBody.front();
 
 	switch (currentDirection) {
+
+		case Direction::NOTSPECIFIED:
+			return;
 
 		case Direction::UP:
 			head.y--;
@@ -37,6 +39,7 @@ void Snake::makeAMove() {
 
 	}
 
+	snakeBody.pop_back();
 	snakeBody.push_front(head);
 }
 
@@ -48,6 +51,9 @@ void Snake::grow() {
 
 bool Snake::setDirection(Direction newDirection) {
 	switch (newDirection) {
+
+		case Direction::NOTSPECIFIED:
+			throw std::runtime_error("WHOAH, NIBBA, HOW DID YOU FIND IT?!");
 
 		case Direction::UP:
 			if (currentDirection == Direction::UP || currentDirection == Direction::DOWN) {
@@ -82,6 +88,8 @@ bool Snake::setDirection(Direction newDirection) {
 			}
 
 	}
+
+	return false;
 }
 
 const std::deque<Point>& Snake::getSnakeBody() const {

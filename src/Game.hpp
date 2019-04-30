@@ -7,14 +7,16 @@
 
 
 #include <memory>
-#include <vector>
+#include <unordered_set>
+#include <random>
 #include "Snake.hpp"
 #include "UserInterface.hpp"
 #include "Point.hpp"
+#include "Dimension.hpp"
 
 class Game {
 public:
-	Game();
+	Game(std::unique_ptr<UserInterfaceI> UI, int snakeStartingSize, int amountOfFood);
 
 	void start();
 
@@ -25,23 +27,28 @@ private:
 
 	void checkIfMoveValid();
 
-	bool checkSelfColision();
+	bool checkSelfCollision();
 
-	bool checkWallColision(const Point& move);
+	bool checkWallCollision();
 
 	bool checkIfAteFood();
 
-	Point generateRandomPoint();
+	void insertNewFood();
 
 	GameState gameState;
 
 	std::unique_ptr<UserInterfaceI> UI;
 
-	std::pair<unsigned int, unsigned int> windowSize;
+	Dimension boardSize;
 
 	Snake snake;
 
-	std::vector<Point> food;
+	std::unordered_set<Point> food;
+
+	std::random_device seed;
+	std::mt19937 randomGenerator;
+	std::uniform_int_distribution<> xDistribution;
+	std::uniform_int_distribution<> yDistribution;
 };
 
 
